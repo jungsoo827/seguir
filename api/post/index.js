@@ -88,8 +88,8 @@ module.exports = function (api) {
   function removePostsByAltid (keyspace, user, altid, next) {
     getPostsByAltid(keyspace, user, altid, function (err, posts) {
       if (err) { return next(err); }
-      async.map(posts, function (postItem, next2) {
-        _removePost(keyspace, postItem.post, next2);
+      async.map(posts, function (postItem, cb) {
+        _removePost(keyspace, postItem.post, cb);
       }, function (err, status) {
         next(err, status && status.length ? status[0] : status);
       });
@@ -150,8 +150,8 @@ module.exports = function (api) {
   function getPostsByAltid (keyspace, liu, altid, next) {
     api.common.get(keyspace, 'selectPostByAltid', [altid], 'many', function (err, posts) {
       if (err) { return next(err); }
-      async.map(posts, function (post, next2) {
-        _validatePost(keyspace, liu, post, next2);
+      async.map(posts, function (post, cb) {
+        _validatePost(keyspace, liu, post, cb);
       }, next);
     });
   }
