@@ -19,12 +19,9 @@ module.exports = function (api) {
     return function (err, result) {
       /* istanbul ignore if */
       if (err) { return next(err); }
-      var noResultError = error(404, 'Item not found: "' + query + '"" for "' + data.join(', ') + '"');
-      if (!result || (many !== 'many' && result.length !== 1)) {
-        return next(error(404, noResultError));
-      }
-      if (many === 'many' && result && !result.length) {
-        return next(error(404, noResultError));
+      // many or one, if no results than return error
+      if (!result || result.length === 0) {
+        return next(error(404, 'Item not found: "' + query + '"" for "' + data.join(', ') + '"'));
       }
       next(null, many === 'many' ? result : result[0]);
     };
