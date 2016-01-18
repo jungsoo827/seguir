@@ -86,12 +86,12 @@ module.exports = function (api) {
   }
 
   function removePostsByAltid (keyspace, user, altid, next) {
-    getPostsByAltid(keyspace, user, altid, function (err, posts) {
-      if (err) { return next(err); }
+    getPostsByAltid(keyspace, user, altid, function (errGet, posts) {
+      if (errGet) { return next(errGet); }
       async.map(posts, function (postItem, cb) {
         _removePost(keyspace, postItem.post, cb);
-      }, function (err, status) {
-        next(err, status && status.length ? status[0] : status);
+      }, function (errRemove, status) {
+        next(errRemove, status && status.length ? status[0] : status);
       });
     });
   }
