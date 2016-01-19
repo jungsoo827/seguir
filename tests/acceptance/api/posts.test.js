@@ -228,7 +228,7 @@ databases.forEach(function (db) {
               api.post.removePostsByAltid(keyspace, users['json'].user, 'P-1234', function (err, status) {
                 expect(err).to.be(null);
                 expect(status.status).to.be('removed');
-                api.post.getPostsByAltid(keyspace, users['json'].user, 'P-12345', function (err, retrievedPost) {
+                api.post.getPostsByAltid(keyspace, users['json'].user, 'P-1234', function (err, retrievedPosts) {
                   expect(err.statusCode).to.be(404);
                   done();
                 });

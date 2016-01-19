@@ -20,7 +20,7 @@ module.exports = function (api) {
       /* istanbul ignore if */
       if (err) { return next(err); }
       // many or one, if no results than return error
-      if (!result || result.length === 0) {
+      if (!result || (many !== 'many' && result.length === 0)) {
         return next(error(404, 'Item not found: "' + query + '"" for "' + data.join(', ') + '"'));
       }
       next(null, many === 'many' ? result : result[0]);

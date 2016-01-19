@@ -150,6 +150,11 @@ module.exports = function (api) {
   function getPostsByAltid (keyspace, liu, altid, next) {
     api.common.get(keyspace, 'selectPostByAltid', [altid], 'many', function (err, posts) {
       if (err) { return next(err); }
+      if (posts.length === 0) {
+        var errNoPosts = new Error('No posts found with this altid: ' + altid);
+        errNoPosts.statusCode = 404;
+        return next(errNoPosts);
+      }
       async.map(posts, function (post, cb) {
         _validatePost(keyspace, liu, post, cb);
       }, next);
